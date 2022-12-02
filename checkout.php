@@ -1,7 +1,17 @@
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <?php 
+$query = "
+    SELECT c.*,p.title,i.price,p.id as pid 
+    from `cart` c 
+        inner join `inventory` i on i.id=c.inventory_id 
+        inner join products p on p.id = i.product_id 
+        where c.client_id = ".$_settings->userdata('id');
+
+if(isset($_GET['product']))
+    $query .= " and i.id = '{$_GET['product']}' ";
 $total = 0;
-    $qry = $conn->query("SELECT c.*,p.title,i.price,p.id as pid from `cart` c inner join `inventory` i on i.id=c.inventory_id inner join products p on p.id = i.product_id where c.client_id = ".$_settings->userdata('id'));
+    $qry = $conn->query($query);
+
     while($row= $qry->fetch_assoc()):
         $total += $row['price'] * $row['quantity'];
     endwhile;
@@ -16,6 +26,9 @@ $total = 0;
                 <input type="hidden" name="amount" value="<?php echo $total ?>">
                 <input type="hidden" name="payment_method" value="cod">
                 <input type="hidden" name="paid" value="0">
+                <?php if($_GET['product']){ ?>
+                    <input type="hidden" name="product_id" value="<?= $_GET['product'] ?>">
+                <?php } ?>
                 <div class="row row-col-1 justify-content-center">
                     <div class="col-6">
                     <div class="form-group col mb-0">
@@ -24,12 +37,17 @@ $total = 0;
                     <div class="form-group d-flex pl-2">
                         <div class="custom-control custom-radio">
                           <input class="custom-control-input custom-control-input-primary" type="radio" id="customRadio4" name="order_type" value="2" checked="">
-                          <label for="customRadio4" class="custom-control-label">For Delivery</label>
+                          <label for="customRadio4" class="custom-control-label">For Buy</label>
                         </div>
+
                         <div class="custom-control custom-radio ml-3">
                           <input class="custom-control-input custom-control-input-primary custom-control-input-outline" type="radio" id="customRadio5" name="order_type" value="1">
-                          <label for="customRadio5" class="custom-control-label">For Pick up</label>
+                          <label for="customRadio5" class="custom-control-label">For Rent</label>
                         </div>
+                        <!-- <div class="custom-control custom-radio ml-3">
+                          <input class="custom-control-input custom-control-input-primary custom-control-input-outline" type="radio" id="customRadio5" name="order_type" value="1">
+                          <label for="customRadio5" class="custom-control-label">For Pick up</label>
+                        </div> -->
                       </div>
                         <div class="form-group col address-holder">
                             <label for="" class="control-label">Delivery Address</label>
@@ -42,7 +60,7 @@ $total = 0;
                         <div class="col my-3">
                         <h4 class="text-muted">Payment Method</h4>
                             <div class="d-flex w-100 justify-content-between">
-                                <button class="btn btn-flat btn-dark">Cash on Delivery</button>
+                                <button class="btn btn-flat btn-primary">Cash on Delivery</button>
                                 <span id="paypal-button"></span>
                             </div>
                         </div>
@@ -101,13 +119,13 @@ function payment_online(){
     $('#place_order').submit()
 }
 $(function(){
-    $('[name="order_type"]').change(function(){
-        if($(this).val() ==2){
-            $('.address-holder').show('slow')
-        }else{
-            $('.address-holder').hide('slow')
-        }
-    })
+    // $('[name="order_type"]').change(function(){
+    //     if($(this).val() ==2){
+    //         $('.address-holder').show('slow')
+    //     }else{
+    //         $('.address-holder').hide('slow')
+    //     }
+    // })
     $('#place_order').submit(function(e){
         e.preventDefault()
         start_loader();

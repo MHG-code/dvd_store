@@ -411,7 +411,10 @@ Class Master extends DBConnection {
 		if($save_order){
 			$order_id = $this->conn->insert_id;
 			$data = '';
-			$cart = $this->conn->query("SELECT c.*,p.title,i.price,p.id as pid from `cart` c inner join `inventory` i on i.id=c.inventory_id inner join products p on p.id = i.product_id where c.client_id ='{$client_id}' ");
+			$query = "SELECT c.*,p.title,i.price,p.id as pid from `cart` c inner join `inventory` i on i.id=c.inventory_id inner join products p on p.id = i.product_id where c.client_id ='{$client_id}' ";
+			if(isset($product_id))
+    			$query .= " and i.id = '{$product_id}' ";
+			$cart = $this->conn->query($query);
 			while($row= $cart->fetch_assoc()):
 				if(!empty($data)) $data .= ", ";
 				$total = $row['price'] * $row['quantity'];
@@ -422,7 +425,15 @@ Class Master extends DBConnection {
 			if($this->capture_err())
 				return $this->capture_err();
 			if($save_olist){
-				$empty_cart = $this->conn->query("DELETE FROM `cart` where client_id = '{$client_id}'");
+				if($order_type == 1){
+					$query = "UPDATE `cart` SET status='rent'
+						 where client_id = '{$client_id}'";
+				}else{
+					$query = "DELETE FROM `cart` where client_id = '{$client_id}'";
+				}
+				if(isset($product_id))
+    				$query .= " and inventory_id = '{$product_id}' ";
+				$empty_cart = $this->conn->query($query);
 				$data = " order_id = '{$order_id}'";
 				$data .= " ,total_amount = '{$amount}'";
 				$save_sales = $this->conn->query("INSERT INTO `sales` set $data");

@@ -3,7 +3,7 @@
     border-bottom: white 1px solid;
   }
 </style>
-<nav style="font-weight: bold; font-size: xx-large; " class="navbar navbar-expand-lg navbar-dark bg-success">
+<nav style="font-weight: bold; font-size: xx-large; " class="navbar navbar-expand-lg navbar-light">
   <div class="container-fluid px-4 px-lg-5 ">
     <button class="navbar-toggler btn btn-sm" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
@@ -15,19 +15,19 @@
     </a>
 
     <form class="form-inline" id="search-form">
-      <div class="input-group">
+      <!-- <div class="input-group">
         <input class="form-control form-control-lg form " type="search" placeholder="Search" aria-label="Search"
           name="search" value="<?php echo isset($_GET['search']) ? $_GET['search'] : "" ?>"
           aria-describedby="button-addon2">
         <div class="input-group-append">
-          <button class="btn bg-success btn-outline-light btn-lg m-0" type="submit" id="button-addon2"><i
+          <button class="btn btn-outline-light btn-lg m-0" type="submit" id="button-addon2"><i
               class="fa fa-search"></i></button>
         </div>
-      </div>
+      </div> -->
     </form>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-        <li class="nav-item"><a class="nav-link active" aria-current="page" href="./">Home</a></li>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 ">
+        <li class="nav-item"><a class="nav-link text-primary active" aria-current="page" href="./">Home</a></li>
         <?php
                         $cat_qry = $conn->query("SELECT * FROM categories where status = 1  limit 3");
                         $count_cats = $conn->query("SELECT * FROM categories where status = 1 ")->num_rows;
@@ -51,17 +51,17 @@
                         <?php if ($count_cats > 3): ?>
                         <!-- <li class="nav-item"><a class="nav-link" href="./?p=view_categories">All Categories</a></li> -->
         <?php endif; ?>
-        <li class="nav-item"><a class="nav-link active" href="./?p=about">About</a></li>
+        <li class="nav-item"><a class="nav-link text-primary active" href="./?p=about">About</a></li>
       </ul>
 
       <div class="d-flex align-items-center">
         <?php if (!isset($_SESSION['userdata']['id'])): ?>
-        <button class="btn bg-success btn-outline-light btn-lg ml-2" id="login-btn" type="button">Login</button>
+        <button class="btn  btn-outline-light btn-lg ml-2" id="login-btn" type="button">Login</button>
         <?php else: ?>
-        <a class="text-light nav-link text-lg" href="./?p=cart">
+        <a class="text-primary nav-link text-lg" href="./?p=cart">
           <i class="bi-cart-fill me-1"></i>
           Cart
-          <span class="badge bg-light text-success ms-1 rounded-pill" id="cart-count">
+          <span class="badge text-primary ms-1 rounded-pill" id="cart-count">
             <?php
               if (isset($_SESSION['userdata']['id'])):
                 $count = $conn->query("SELECT SUM(quantity) as items from `cart` where client_id =" . $_settings->userdata('id'))->fetch_assoc()['items'];
@@ -73,10 +73,10 @@
           </span>
         </a>
 
-        <a href="./?p=my_account" class="text-light nav-link text-lg"><b> Hi,
+        <a href="./?p=my_account" class="text-primary nav-link text-lg"><b> Hi,
             <?php echo $_settings->userdata('firstname') ?>!
           </b></a>
-        <a href="logout.php" class="text-light  nav-link"><i class="fa fa-sign-out-alt"></i></a>
+        <a href="logout.php" class="text-primary  nav-link"><i class="fa fa-sign-out-alt"></i></a>
         <?php endif; ?>
       </div>
     </div>

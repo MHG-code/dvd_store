@@ -73,7 +73,7 @@ elseif(isset($_GET['s'])){
             <div class="collapse navbar-collapse" id="navbarSupportedContenth">
                <a class="nav-link dropdown-toggle text-dark text-lg" id="navbarDropdownCat" href="#" role="button"
                   data-toggle="dropdown" aria-expanded="false">
-                  <?php echo ("Cetagories") ?>
+                  <?php echo ("<span class='font-weight-bold'>Cetagories</span>") ?>
                </a>
                <ul class="dropdown-menu  p-0" aria-labelledby="navbarDropdownCat">
 
@@ -133,7 +133,7 @@ elseif(isset($_GET['s'])){
          <div class="container-fluid px-4 px-lg-5 ">
          <a class="nav-link dropdown-toggle text-dark text-lg" id="navbarDropdownFilter" href="#" role="button"
                   data-toggle="dropdown" aria-expanded="false">
-                  <?php echo ("Filter") ?>
+                  <?php echo ("<span class='font-weight-bold'>Filter</span>") ?>
                </a>
                <ul class="dropdown-menu p-0" aria-labelledby="navbarDropdownFilter">
 
@@ -201,7 +201,7 @@ elseif(isset($_GET['s'])){
          <!-- Product listing style 2 -->
         <?php if($listing == 0){ $listing_rank++ ?>
          
-         <div class="col mb-5">
+         <div class="col mb-5" style="width: 40%;">
          <p>Rank <?= $listing_rank ?></p>
             <div class="card product-item p-2">
          <?php  } $listing++ ?>
@@ -210,7 +210,7 @@ elseif(isset($_GET['s'])){
                   <a href=".?p=view_product&id=<?php echo md5($row['id']) ?>" data-gallery="portfolioDetailsGallery"
                         data-glightbox="type: external" class="portfolio-details-lightbox "
                         title=""><div class="row">
-                     <img class="CD-cover" src="<?php echo validate_image($img) ?>" alt="..." />
+                     <img class="CD-cover" src="<?php echo validate_image($img) ?>" alt="..." style="width: 500px;"/>
                   </div></a>
                   
          <?php if($listing == 20){ $listing = 0; $end_listing = true; ?>

@@ -1,4 +1,10 @@
-
+<style>
+    .cart-prod-img {
+    height: 7vh;
+    width: 18vw;
+    object-fit: cover;
+}
+</style>
 <section class="py-5">
     <div class="container">
         <div class="row">
@@ -11,7 +17,11 @@
                 <h3><b>Cart List</b></h3>
                 <hr class="border-dark">
                 <?php 
-                    $qry = $conn->query("SELECT c.*,p.title,i.price,p.id as pid from `cart` c inner join `inventory` i on i.id=c.inventory_id inner join products p on p.id = i.product_id where c.client_id = ".$_settings->userdata('id'));
+                    $qry = $conn->query("SELECT c.*,p.title,i.price,p.id as pid from `cart` c 
+                        inner join `inventory` i on i.id=c.inventory_id 
+                        inner join products p on p.id = i.product_id 
+                            where c.client_id = ".$_settings->userdata('id') ." AND c.status != 'rent'"
+                            );
                     while($row= $qry->fetch_assoc()):
                         $upload_path = base_app.'/uploads/product_'.$row['pid'];
                         $img = "";
@@ -26,25 +36,28 @@
                         }
                 ?>
                     <div class="d-flex w-100 justify-content-between  mb-2 py-2 border-bottom cart-item">
-                        <div class="d-flex align-items-center col-8">
-                            <span class="mr-2"><a href="javascript:void(0)" class="btn btn-sm btn-outline-danger rem_item" data-id="<?php echo $row['id'] ?>"><i class="fa fa-trash"></i></a></span>
+                        <div class="d-flex justify-content-between align-items-center col-8">
                             <img src="<?php echo validate_image($img) ?>" loading="lazy" class="cart-prod-img mr-2 mr-sm-2" alt="">
                             <div>
+                                <span class="mr-2 pr-2"><a class="font-weight-bold" href="./?p=checkout&product=<?php echo ($row['inventory_id']) ?>" data-id="<?php echo $row['id'] ?>" style="font-size:larger; color:black; text-decoration:none">Buy</a></span>
+                                <span class="mr-2"><a href="javascript:void(0)" class="btn btn-sm btn-outline-danger rem_item" data-id="<?php echo $row['id'] ?>"><i class="fa fa-trash"></i></a></span>
+                            </div>
+                            <!-- <div>
                                 <p class="mb-1 mb-sm-1"><?php echo $row['title'] ?></p>
                                 
                                 <p class="mb-1 mb-sm-1"><small><b>Price:</b> <span class="price"><?php echo number_format($row['price']) ?></span></small></p>
                                 <div>
                                 <div class="input-group" style="width:130px !important">
-                                    <!-- <div class="input-group-prepend">
+                                    <div class="input-group-prepend">
                                         <button class="btn btn-sm btn-outline-secondary min-qty" type="button" id="button-addon1"><i class="fa fa-minus"></i></button>
-                                    </div> -->
-                                    <!-- <input type="number" class="form-control form-control-sm qty text-center cart-qty" placeholder="" aria-label="Example text with button addon" value="<?php echo $row['quantity'] ?>" aria-describedby="button-addon1" data-id="<?php echo $row['id'] ?>" readonly> -->
-                                    <!-- <div class="input-group-append">
+                                    </div>
+                                    <input type="number" class="form-control form-control-sm qty text-center cart-qty" placeholder="" aria-label="Example text with button addon" value="<?php echo $row['quantity'] ?>" aria-describedby="button-addon1" data-id="<?php echo $row['id'] ?>" readonly>
+                                    <div class="input-group-append">
                                         <button class="btn btn-sm btn-outline-secondary plus-qty" type="button" id="button-addon1"><i class="fa fa-plus"></i></button>
-                                    </div> -->
+                                    </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="col text-right align-items-center d-flex justify-content-end">
                             <h4><b class="total-amount"><?php echo number_format($row['price'] * $row['quantity']) ?></b></h4>
@@ -57,8 +70,46 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex w-100 justify-content-end">
-            <a href="./?p=checkout" class="btn btn-sm btn-flat btn-dark">Checkout</a>
+        <div class="d-flex w-100 justify-content-center">
+            <a href="./?p=checkout" class="btn btn-sm btn-flat btn-light font-weight-bold rounded p-2 w-25" style="font-size: 1.5rem;">SEND</a>
+        </div>
+
+        <div class="card rounded-0 mt-3">
+            <div class="card-body">
+                <h3><b>Rent List</b></h3>
+                <hr class="border-dark">
+                <?php 
+                    $qry = $conn->query("SELECT c.*,p.title,i.price,p.id as pid from `cart` c 
+                        inner join `inventory` i on i.id=c.inventory_id 
+                        inner join products p on p.id = i.product_id 
+                            where c.client_id = ".$_settings->userdata('id')." AND c.status = 'rent'"
+                            
+                        );
+                    while($row= $qry->fetch_assoc()):
+                        $upload_path = base_app.'/uploads/product_'.$row['pid'];
+                        $img = "";
+                        foreach($row as $k=> $v){
+                            $row[$k] = trim(stripslashes($v));
+                        }
+                        if(is_dir($upload_path)){
+                            $fileO = scandir($upload_path);
+                            if(isset($fileO[2]))
+                                $img = "uploads/product_".$row['pid']."/".$fileO[2];
+                            // var_dump($fileO);
+                        }
+                ?>
+                    <div class="d-flex w-100 justify-content-between  mb-2 py-2 border-bottom cart-item">
+                        <div class="d-flex justify-content-between align-items-center col-8">
+                            <img src="<?php echo validate_image($img) ?>" loading="lazy" class="cart-prod-img mr-2 mr-sm-2" alt="">
+                            <div>
+                            <span class="mr-2 pr-2"><a class="font-weight-bold" href="./?p=checkout&product=<?php echo ($row['inventory_id']) ?>" data-id="<?php echo $row['id'] ?>" style="font-size:larger; color:black; text-decoration:none">Buy</a></span>
+                            </div>
+                            
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+                
+            </div>
         </div>
     </div>
 </section>
