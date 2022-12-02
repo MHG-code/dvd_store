@@ -46,11 +46,17 @@ elseif(isset($_GET['s'])){
 <style>
    .CD-cover {
       object-fit: contain !important;
-      height: 200px !important;
+      height: 30px !important;
       object-fit: cover !important;
    }
    .btn-filter{
       cursor: pointer;
+   }
+  
+
+   .product-item .row{
+      flex-direction: column;
+      margin-bottom: 5px;
    }
 </style>
 
@@ -149,6 +155,7 @@ elseif(isset($_GET['s'])){
 
    </div>
 
+   <!-- Products Showing -->
 
    <div class="container px-4 px-lg-5 mt-5">
       <div class="row gx-4 gx-lg-5 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -165,8 +172,13 @@ elseif(isset($_GET['s'])){
             elseif(isset($_GET['filter']))
                $whereData = " and (title LIKE '{$_GET['filter']}%')";
 
-            $products = $conn->query("SELECT * FROM `products` where status = 1 {$whereData} order by rand() limit 8 ");
+            $products = $conn->query("SELECT * FROM `products` where status = 1 {$whereData} order by rand() ");
+
+            $listing = 0;
+            $listing_rank = 0;
+            
             while ($row = $products->fetch_assoc()):
+               $end_listing = false;
                $upload_path = base_app . '/uploads/product_' . $row['id'];
                $img = "";
                if (is_dir($upload_path)) {
@@ -184,44 +196,33 @@ elseif(isset($_GET['s'])){
                   $inv[] = number_format($ir['price']);
                }
             ?>
-         <div class="col mb-5">
-            <div class="card product-item ">
-               <!-- Product image-->
-               <img class="card-img-top w-100 CD-cover" height="200px" src="<?php echo validate_image($img) ?>"
-                  alt="..." />
-               <!-- Product details-->
-               <div class="card-body p-4">
-                  <div class="">
-                     <!-- Product name-->
-                     <h5 class="fw-bolder">
-                        <?php echo $row['title'] ?>
-                     </h5>
-                     <!-- Product price-->
-                     <?php foreach ($inv as $k => $v): ?>
-                     <span><b>Price: </b>
-                        <?php echo $v ?>
-                     </span>
-                     <?php endforeach; ?>
-                  </div>
 
-               </div>
-               <!-- Product actions-->
-               <div class="card-footer pt-0 border-top-1 bg-success">
-                  <div class="text-center p-4">
-                     <a href=".?p=view_product&id=<?php echo md5($row['id']) ?>" data-gallery="portfolioDetailsGallery"
-                        data-glightbox="type: external" class="portfolio-details-lightbox btn text-light text-lg"
-                        title="">View</a>
-                  </div>
-               </div>
+
+         <!-- Product listing style 2 -->
+        <?php if($listing == 0){ $listing_rank++ ?>
+         
+         <div class="col mb-5">
+         <p>Rank <?= $listing_rank ?></p>
+            <div class="card product-item p-2">
+         <?php  } $listing++ ?>
+        
+                  
+                  <a href=".?p=view_product&id=<?php echo md5($row['id']) ?>" data-gallery="portfolioDetailsGallery"
+                        data-glightbox="type: external" class="portfolio-details-lightbox "
+                        title=""><div class="row">
+                     <img class="CD-cover" src="<?php echo validate_image($img) ?>" alt="..." />
+                  </div></a>
+                  
+         <?php if($listing == 20){ $listing = 0; $end_listing = true; ?>
             </div>
          </div>
-
-
-
-         <!--<a class="btn btn-flat btn-primary "   href=".?p=view_product&id=<?php echo md5($row['id']) ?>">View</a>-->
-
+         <?php } ?>
 
          <?php endwhile; ?>
+         <?php if(!$end_listing){ ?>
+            </div>
+               </div>
+         <?php } ?>
       </div>
    </div>
 </section>

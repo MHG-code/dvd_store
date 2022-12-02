@@ -1,10 +1,12 @@
+<?php $page = isset($_GET['p']) ? $_GET['p'] : 'home';  ?>
+
 <?php require_once('config.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <?php require_once('inc/header.php') ?>
 <body>
-<?php require_once('inc/topBarNav.php') ?>
-<?php $page = isset($_GET['p']) ? $_GET['p'] : 'home';  ?>
+<?php if($page != 'view_product') require_once('inc/topBarNav.php') ?>
+
 <?php 
     if(!file_exists($page.".php") && !is_dir($page)){
         include '404.html';
@@ -16,7 +18,7 @@
 
     } 
 ?>
-<?php require_once('inc/footer.php') ?>
+<?php if($page != 'view_product') require_once('inc/footer.php') ?>
 <div class="modal fade" id="confirm_modal" role='dialog'>
     <div class="modal-dialog modal-md modal-dialog-centered" role="document">
       <div class="modal-content">
