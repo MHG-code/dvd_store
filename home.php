@@ -61,11 +61,11 @@ elseif(isset($_GET['s'])){
 
    <div class="container">
 
-      <nav class="navbar navbar-expand navbar-dark bg-dark">
+      <nav class="navbar navbar-expand navbar-dark bg-white">
          <div class="container-fluid px-4 px-lg-5 ">
 
             <div class="collapse navbar-collapse" id="navbarSupportedContenth">
-               <a class="nav-link dropdown-toggle text-light text-lg" id="navbarDropdownCat" href="#" role="button"
+               <a class="nav-link dropdown-toggle text-dark text-lg" id="navbarDropdownCat" href="#" role="button"
                   data-toggle="dropdown" aria-expanded="false">
                   <?php echo ("Cetagories") ?>
                </a>
@@ -125,7 +125,7 @@ elseif(isset($_GET['s'])){
 
 
          <div class="container-fluid px-4 px-lg-5 ">
-         <a class="nav-link dropdown-toggle text-light text-lg" id="navbarDropdownFilter" href="#" role="button"
+         <a class="nav-link dropdown-toggle text-dark text-lg" id="navbarDropdownFilter" href="#" role="button"
                   data-toggle="dropdown" aria-expanded="false">
                   <?php echo ("Filter") ?>
                </a>

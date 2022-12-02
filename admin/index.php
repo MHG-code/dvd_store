@@ -1,15 +1,15 @@
 <?php require_once('../config.php'); ?>
  <!DOCTYPE html>
-<html lang="en" class="" style="height: auto;">
+<html lang="en" class="" style="height: auto; font-size:1.3rem">
 <?php require_once('inc/header.php') ?>
-  <body class="sidebar-mini layout-fixed control-sidebar-slide-open layout-navbar-fixed dark-mode sidebar-mini-md sidebar-mini-xs" data-new-gr-c-s-check-loaded="14.991.0" data-gr-ext-installed="" style="height: auto;">
+  <body class="sidebar-mini layout-fixed control-sidebar-slide-open layout-navbar-fixed white-mode sidebar-mini-md sidebar-mini-xs" data-new-gr-c-s-check-loaded="14.991.0" data-gr-ext-installed="" style="height: auto;">
     <div class="wrapper">
      <?php require_once('inc/topBarNav.php') ?>
      <?php require_once('inc/navigation.php') ?>
               
      <?php $page = isset($_GET['page']) ? $_GET['page'] : 'home';  ?>
       <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper bg-dark pt-3" style="min-height: 567.854px;">
+      <div class="content-wrapper bg-white pt-3" style="min-height: 567.854px;">
      
         <!-- Main content -->
         <section class="content  text-dark">
