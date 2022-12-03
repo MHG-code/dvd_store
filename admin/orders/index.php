@@ -42,7 +42,11 @@
 				<tbody>
 					<?php 
 					$i = 1;
-						$qry = $conn->query("SELECT o.*,concat(c.firstname,' ',c.lastname) as client from `orders` o inner join clients c on c.id = o.client_id order by unix_timestamp(o.date_created) desc ");
+						$qry = $conn->query("SELECT o.*,concat(c.firstname,' ',c.lastname) as client from `orders` o 
+							inner join clients c on c.id = o.client_id 
+								WHERE o.order_type = '2'
+								order by unix_timestamp(o.date_created)
+								 desc ");
 						while($row = $qry->fetch_assoc()):
 					?>
 						<tr>
@@ -58,19 +62,12 @@
                                 <?php endif; ?>
                             </td>
 							<td class="text-center">
-                                <?php if($row['status'] == 0): ?>
+                                <?php if($row['status'] == 0){ ?>
                                     <span class="badge badge-light">Pending</span>
-                                <?php elseif($row['status'] == 1): ?>
-                                    <span class="badge badge-primary">Packed</span>
-								<?php elseif($row['status'] == 2): ?>
-                                    <span class="badge badge-warning">Out for Delivery</span>
-								<?php elseif($row['status'] == 3): ?>
-                                    <span class="badge badge-success">Delivered</span>
-								<?php elseif($row['status'] == 5): ?>
-                                    <span class="badge badge-success">Picked Up</span>
-                                <?php else: ?>
-                                    <span class="badge badge-danger">Cancelled</span>
-                                <?php endif; ?>
+								<?php }else{ ?>
+									<span class="badge badge-success">Given</span>
+								<?php } ?>
+                                
                             </td>
 							<td align="center">
 								 <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">

@@ -409,6 +409,7 @@ Class Master extends DBConnection {
 		$delete = $this->conn->query("DELETE FROM `orders` where id = '{$id}'");
 		$delete2 = $this->conn->query("DELETE FROM `order_list` where order_id = '{$id}'");
 		$delete3 = $this->conn->query("DELETE FROM `sales` where order_id = '{$id}'");
+		
 		if($this->capture_err())
 			return $this->capture_err();
 		if($delete){
@@ -451,12 +452,12 @@ Class Master extends DBConnection {
 			if($this->capture_err())
 				return $this->capture_err();
 			if($save_olist){
-				if($order_type == 1){
-					$query = "UPDATE `cart` SET status='rent'
-						 where client_id = '{$client_id}'";
-				}else{
+				// if($order_type == 1){
+				// 	$query = "UPDATE `cart` SET status='rent'
+				// 		 where client_id = '{$client_id}'";
+				// }else{
 					$query = "DELETE FROM `cart` where client_id = '{$client_id}'";
-				}
+				// }
 				if(isset($product_id))
     				$query .= " and inventory_id = '{$product_id}' ";
 				$empty_cart = $this->conn->query($query);

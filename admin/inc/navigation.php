@@ -56,14 +56,14 @@
                       </a>
                     </li>
 
-                    <!-- <li class="nav-item dropdown">
+                    <li class="nav-item dropdown">
                       <a href="<?php echo base_url ?>admin/?page=rent_list" class="nav-link nav-rents">
                         <i class="nav-icon fas fa-list"></i>
                         <p>
                           Rent List
                         </p>
                       </a>
-                    </li> -->
+                    </li>
                     <li class="nav-item dropdown">
                       <a href="<?php echo base_url ?>admin/?page=sales" class="nav-link nav-sales">
                         <i class="nav-icon fas fa-file"></i>

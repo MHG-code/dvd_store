@@ -6,9 +6,9 @@
             <select name="status" id="" class="custom-select custol-select-sm">
                 <option value="0" <?php echo $_GET['status'] == 0 ? "selected" : '' ?>>Pending</option>
                 <?php if($_GET['order_type'] == 2){ ?>
-                    <option value="1" <?php echo $_GET['status'] == 1 ? "selected" : '' ?>>sell</option>
+                    <option value="2" <?php echo $_GET['status'] == 1 ? "selected" : '' ?>>sell</option>
                 <?php }else{ ?>
-                    <option value="2" <?php echo $_GET['status'] == 2 ? "selected" : '' ?>>give rent</option>
+                    <option value="1" <?php echo $_GET['status'] == 2 ? "selected" : '' ?>>give rent</option>
                 <?php } ?>
                 <!-- <option value="5" <?php echo $_GET['status'] == 5 ? "selected" : '' ?>>Picked Up</option>
                 <option value="3" <?php echo $_GET['status'] == 3 ? "selected" : '' ?>>Delivered</option>
