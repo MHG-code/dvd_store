@@ -160,6 +160,7 @@ elseif(isset($_GET['s'])){
    <div class="container px-4 px-lg-5 mt-5">
       <div class="row gx-4 gx-lg-5 row-cols-md-3 row-cols-xl-4 justify-content-center">
          <?php
+         $end_listing = false;
             $whereData = "";
             if(isset($_GET['search']))
                $whereData = " and (title LIKE '%{$_GET['search']}%' or author LIKE '%{$_GET['search']}%' or description LIKE '%{$_GET['search']}%')";

@@ -134,9 +134,11 @@ Class Master extends DBConnection {
 		}
 		extract($_POST);
 		$data = "";
+		$inv_data = "";
 		foreach($_POST as $k =>$v){
-			if(!in_array($k,array('id','description'))){
+			if(!in_array($k,array('id','description', 'price','quantity'))){
 				if(!empty($data)) $data .=",";
+
 				$v = addslashes($v);
 				$data .= " `{$k}`='{$v}' ";
 			}
@@ -145,7 +147,22 @@ Class Master extends DBConnection {
 			if(!empty($data)) $data .=",";
 				$data .= " `description`='".addslashes(htmlentities($description))."' ";
 		}
-		$check = $this->conn->query("SELECT * FROM `products` where `title` = '{$title}' ".(!empty($id) ? " and id != {$id} " : "")." ")->num_rows;
+
+		if(isset($_POST['price'])){
+			$price = $_POST['price'];
+			if(!empty($inv_data)) $inv_data .=",";
+
+				$inv_data .= " `price`='{$price}' ";
+		}
+
+		if( isset($_POST['quantity'])){
+			$quantity = $_POST['quantity'];
+			if(!empty($inv_data)) $inv_data .=",";
+				$inv_data .= " `quantity`='{$quantity}' ";
+		}
+
+		$check = $this->conn->query("SELECT * FROM `products` 
+			where `title` = '{$title}' ".(!empty($id) ? " and id != {$id} " : "")." ")->num_rows;
 		if($this->capture_err())
 			return $this->capture_err();
 		if($check > 0){
@@ -158,8 +175,16 @@ Class Master extends DBConnection {
 			$sql = "INSERT INTO `products` set {$data} ";
 			$save = $this->conn->query($sql);
 			$id= $this->conn->insert_id;
+
+			
+			$inv_data .= ", `product_id`='{$id}' ";
+			$sql = "INSERT INTO `inventory` set {$inv_data} ";
+			$this->conn->query($sql);
 		}else{
 			$sql = "UPDATE `products` set {$data} where id = '{$id}' ";
+			$save = $this->conn->query($sql);
+
+			$sql = "UPDATE `inventory` set {$inv_data} where product_id = '{$id}' ";
 			$save = $this->conn->query($sql);
 		}
 		if($save){
@@ -188,6 +213,7 @@ Class Master extends DBConnection {
 		extract($_POST);
 		$del = $this->conn->query("DELETE FROM `products` where id = '{$id}'");
 		if($del){
+			$this->conn->query("DELETE FROM `inventory` where product_id = '{$id}'");
 			$resp['status'] = 'success';
 			$this->settings->set_flashdata('success',"Product successfully deleted.");
 		}else{

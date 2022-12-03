@@ -53,13 +53,25 @@ if(isset($_GET['id']) && $_GET['id'] > 0){
 				<label for="description" class="control-label">Description</label>
                 <textarea name="description" id="" cols="30" rows="2" class="form-control form no-resize summernote"><?php echo isset($description) ? $description : ''; ?></textarea>
 			</div>
-            <div class="form-group">
+            <!-- <div class="form-group">
 				<label for="status" class="control-label">Status</label>
                 <select name="status" id="status" class="custom-select selevt">
                 <option value="1" <?php echo isset($status) && $status == 1 ? 'selected' : '' ?>>Active</option>
                 <option value="0" <?php echo isset($status) && $status == 0 ? 'selected' : '' ?>>Inactive</option>
                 </select>
-			</div>
+			</div> -->
+            <input type="hidden" value="1" name="status" id="status" />
+
+            <div class="form-group">
+				<label for="price" class="control-label">Price</label>
+                <input type="number" step="any" class="form-control form" required name="price" value="<?php echo isset($price) ? $price : '' ?>">
+            </div>
+
+            <div class="form-group">
+				<!-- <label for="quantity" class="control-label">Beginning Quanatity</label> -->
+                <input type="hidden" class="form-control form" required name="quantity" value="<?php echo isset($quantity) ? $quantity : '1' ?>">
+            </div>
+
             <div class="form-group">
 				<label for="" class="control-label">Images</label>
 				<div class="custom-file">

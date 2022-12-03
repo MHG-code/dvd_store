@@ -56,7 +56,7 @@
 
       <div class="d-flex align-items-center">
         <?php if (!isset($_SESSION['userdata']['id'])): ?>
-        <button class="btn  btn-outline-light btn-lg ml-2" id="login-btn" type="button">Login</button>
+        <button class="btn text-primary nav-link text-lg btn-outline-light btn-lg ml-2" id="login-btn" type="button">Login</button>
         <?php else: ?>
         <a class="text-primary nav-link text-lg" href="./?p=cart">
           <i class="bi-cart-fill me-1"></i>

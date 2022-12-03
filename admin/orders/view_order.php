@@ -25,9 +25,9 @@ if($order->num_rows > 0){
     <div class="card-body">
         <div class="conitaner-fluid">
             <p><b>Client Name: <?php echo $client ?></b></p>
-            <?php if($order_type == 1): ?>
+            <?php //if($order_type == 1): ?>
             <p><b>Delivery Address: <?php echo $delivery_address ?></b></p>
-            <?php endif; ?>
+            <?php //endif; ?>
             <table class="table-striped table table-bordered">
                 <colgroup>
                     <col width="15%">
@@ -81,26 +81,31 @@ if($order->num_rows > 0){
                 <div class="col-3">Order Status:</div>
                 <div class="col-9">
                 <?php 
-                    switch($status){
-                        case '0':
-                            echo '<span class="badge badge-light text-dark">Pending</span>';
-	                    break;
-                        case '1':
-                            echo '<span class="badge badge-primary">Packed</span>';
-	                    break;
-                        case '2':
-                            echo '<span class="badge badge-warning">Out for Delivery</span>';
-	                    break;
-                        case '3':
-                            echo '<span class="badge badge-success">Delivered</span>';
-	                    break;
-                        case '5':
-                            echo '<span class="badge badge-success">Picked Up</span>';
-	                    break;
-                        default:
-                            echo '<span class="badge badge-danger">Cancelled</span>';
-	                    break;
-                    }
+                if($status == 0){
+                    echo '<span class="badge badge-light text-dark">Pending</span>';
+                }else{
+                    echo '<span class="badge badge-success">given</span>';
+                }
+                    // switch($status){
+                    //     case '0':
+                    //         echo '<span class="badge badge-light text-dark">Pending</span>';
+	                //     break;
+                    //     case '1':
+                    //         echo '<span class="badge badge-primary">Packed</span>';
+	                //     break;
+                    //     case '2':
+                    //         echo '<span class="badge badge-warning">Out for Delivery</span>';
+	                //     break;
+                    //     case '3':
+                    //         echo '<span class="badge badge-success">Delivered</span>';
+	                //     break;
+                    //     case '5':
+                    //         echo '<span class="badge badge-success">Picked Up</span>';
+	                //     break;
+                    //     default:
+                    //         echo '<span class="badge badge-danger">Cancelled</span>';
+	                //     break;
+                    // }
                 ?>
                 </div>
                 <?php if(!isset($_GET['view'])): ?>
@@ -130,7 +135,7 @@ if($order->num_rows > 0){
 <script>
     $(function(){
         $('#update_status').click(function(){
-            uni_modal("Update Status", "./orders/update_status.php?oid=<?php echo $id ?>&status=<?php echo $status ?>")
+            uni_modal("Update Status", "./orders/update_status.php?oid=<?php echo $id ?>&status=<?php echo $status ?>&order_type=<?= $order_type ?>")
         })
     })
 </script>

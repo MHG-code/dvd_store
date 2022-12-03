@@ -26,7 +26,7 @@ $total = 0;
                 <input type="hidden" name="amount" value="<?php echo $total ?>">
                 <input type="hidden" name="payment_method" value="cod">
                 <input type="hidden" name="paid" value="0">
-                <?php if($_GET['product']){ ?>
+                <?php if(isset($_GET['product'])){ ?>
                     <input type="hidden" name="product_id" value="<?= $_GET['product'] ?>">
                 <?php } ?>
                 <div class="row row-col-1 justify-content-center">
