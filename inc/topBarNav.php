@@ -3,7 +3,7 @@
     border-bottom: white 1px solid;
   }
 </style>
-<nav style="font-weight: bold; font-size: xx-large; " class="navbar navbar-expand-lg navbar-light">
+<nav style="font-weight: bold; font-size: x-large; " class="navbar navbar-expand-lg navbar-light">
   <div class="container-fluid px-4 px-lg-5 ">
     <button class="navbar-toggler btn btn-sm" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
@@ -56,7 +56,7 @@
 
       <div class="d-flex align-items-center">
         <?php if (!isset($_SESSION['userdata']['id'])): ?>
-        <button class="btn text-primary nav-link text-lg btn-outline-light btn-lg ml-2" id="login-btn" type="button">Login</button>
+        <button class="btn text-primary nav-link text-lg btn-outline-light btn-lg ml-2" id="login-btn" type="button" style="font-weight: bold;">Login</button>
         <?php else: ?>
         <a class="text-primary nav-link text-lg" href="./?p=cart">
           <i class="bi-cart-fill me-1"></i>

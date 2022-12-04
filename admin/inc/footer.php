@@ -59,10 +59,12 @@
         <strong>Copyright © <?php echo date('Y') ?>. 
         <!-- <a href=""></a> -->
         </strong>
-        All rights reserved.
+        <b>all Copyright is
+reserved by J.Thomas & Sons. (c) 2022.</b>
+        <!-- All rights reserved.
         <div class="float-right d-none d-sm-inline-block">
           <b><?php echo $_settings->info('short_name') ?> (by: <a href="https://dwamsoft.com/">DWAM Soft</a> )</b> v1.0
-        </div>
+        </div> -->
       </footer>
     </div>
     <!-- ./wrapper -->

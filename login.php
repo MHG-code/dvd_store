@@ -24,7 +24,7 @@
                     <input type="password" class="form-control form" name="password" required>
                 </div>
                 <div class="form-group d-flex justify-content-between align-items-center">
-                    <a class="text-success" href="javascript:void()" id="create_account">Create Account</a>
+                    <a class="text-success" href="javascript:void()" id="create_account">Please Register</a>
                     <button class="btn btn-success">Login</button>
                 </div>
             </form>

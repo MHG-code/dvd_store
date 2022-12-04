@@ -41,10 +41,10 @@
 				<label for="" class="control-label">About Us</label>
 	             <textarea name="about_us" id="" cols="30" rows="2" class="form-control summernote"><?php echo  is_file(base_app.'about.html') ? file_get_contents(base_app.'about.html') : "" ?></textarea>
 			</div>
-			<div class="form-group">
+			<!-- <div class="form-group">
 				<label for="" class="control-label">Privacy Policy</label>
 	             <textarea name="privacy_policy" id="" cols="30" rows="2" class="form-control summernote"><?php echo  is_file(base_app.'privacy_policy.html') ? file_get_contents(base_app.'privacy_policy.html') : "" ?></textarea>
-			</div>
+			</div> -->
 			
 			<div class="form-group">
 				<label for="" class="control-label">System Logo</label>

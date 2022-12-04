@@ -29,22 +29,32 @@
                     <input type="text" class="form-control form-control-sm form" name="lastname" required>
                 </div>
                 <div class="form-group">
-                    <label for="" class="control-label">Contact</label>
+                    <label for="" class="control-label">Phone Number</label>
                     <input type="text" class="form-control form-control-sm form" name="contact" required>
                 </div>
                 <div class="form-group">
-                    <label for="" class="control-label">Gender</label>
+                    <label for="" class="control-label">Title</label>
                     <select name="gender" id="" class="custom-select select" required>
-                        <option>Male</option>
-                        <option>Female</option>
+                        <option>Mr</option>
+                        <option>Ms</option>
+                        <option>Mrs</option>
+                        <option>Doctor</option>
+                        <option>Professor</option>
+                        <option>Engineer</option>
                     </select>
                 </div>
             </div>
             <div class="col-lg-7">
                 <div class="form-group">
-                    <label for="" class="control-label">Default Delivery Address</label>
+                    <label for="" class="control-label"> Delivery Address</label>
                     <textarea class="form-control form" rows='3' name="default_delivery_address"></textarea>
                 </div>
+
+                <div class="form-group">
+                    <label for="" class="control-label">Post code</label>
+                    <input type="text" class="form-control form-control-sm form" name="post_code" required>
+                </div>
+
                 <div class="form-group">
                     <label for="" class="control-label">Email</label>
                     <input type="text" class="form-control form-control-sm form" name="email" required>

@@ -25,13 +25,22 @@
                             <div class="form-group">
                                 <label for="" class="control-label">Gender</label>
                                 <select name="gender" id="" class="custom-select select" required>
-                                    <option <?php echo $_settings->userdata('gender') == "Male" ? "selected" : '' ?>>Male</option>
-                                    <option <?php echo $_settings->userdata('gender') == "Female" ? "selected" : '' ?>>Female</option>
+                                    <option <?php echo $_settings->userdata('gender') == "Mr" ? "selected" : '' ?>>Mr</option>
+                                    <option <?php echo $_settings->userdata('gender') == "Ms" ? "selected" : '' ?>>Ms</option>
+                                    <option <?php echo $_settings->userdata('gender') == "Mrs" ? "selected" : '' ?>>Mrs</option>
+                                    <option <?php echo $_settings->userdata('gender') == "Doctor" ? "selected" : '' ?>>Doctor</option>
+                                    <option <?php echo $_settings->userdata('gender') == "Professor" ? "selected" : '' ?>>Professor</option>
+                                    <option <?php echo $_settings->userdata('gender') == "Engineer" ? "selected" : '' ?>>Engineer</option>
+                            
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="" class="control-label">Default Delivery Address</label>
+                                <label for="" class="control-label"> Delivery Address</label>
                                 <textarea class="form-control form" rows='3' name="default_delivery_address"><?php echo $_settings->userdata('default_delivery_address') ?></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="control-label">Post code</label>
+                                <input type="text" class="form-control form-control-sm form" name="post_code" value="<?php echo $_settings->userdata('post_code') ?>" required>
                             </div>
                             <div class="form-group">
                                 <label for="email" class="control-label">Email</label>

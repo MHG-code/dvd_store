@@ -87,8 +87,9 @@
 <!-- Footer-->
 <footer class="py-5 bg-light">
             <div class="container">
-              <p class="m-0 text-center text-dark">Copyright &copy; <?php echo $_settings->info('short_name') ?> 2022</p>
-              <p class="m-0 text-center text-primary">Developed By: <a href="https://dwamsoft.com/">DWAM Soft</a></p>
+              <p class="m-0 text-center text-dark">all Copyright is
+reserved by J.Thomas & Sons. (c) 2022.</p>
+              <!-- <p class="m-0 text-center text-primary">Developed By: <a href="https://dwamsoft.com/">DWAM Soft</a></p> -->
           </div>
         </footer>
 

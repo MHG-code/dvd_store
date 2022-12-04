@@ -1,19 +1,36 @@
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-<?php 
+<?php
 $query = "
+    SELECT * from orders as o
+        inner join order_list as ol on o.id = ol.order_id 
+            where o.order_type = '1' AND o.client_id = ".$_settings->userdata('id');
+$all_rent_orders = $conn->query($query);
+$all_rent_orders = mysqli_num_rows($all_rent_orders);
+if(isset($_GET['goto'])){
+    $query = "
+        SELECT p.title,i.price,p.id as pid 
+        from `inventory` i 
+            inner join products p on p.id = i.product_id 
+                where i.id = '{$_GET['product']}'  ";
+}
+else{
+    $query = "
     SELECT c.*,p.title,i.price,p.id as pid 
     from `cart` c 
         inner join `inventory` i on i.id=c.inventory_id 
         inner join products p on p.id = i.product_id 
         where c.client_id = ".$_settings->userdata('id');
+        if(isset($_GET['product']))
+            $query .= " and i.id = '{$_GET['product']}' ";
+}
 
-if(isset($_GET['product']))
-    $query .= " and i.id = '{$_GET['product']}' ";
+
 $total = 0;
     $qry = $conn->query($query);
 
     while($row= $qry->fetch_assoc()):
-        $total += $row['price'] * $row['quantity'];
+        // $total += $row['price'] * $row['quantity'];
+        $total += $row['price'] ;
     endwhile;
 ?>
 <section class="py-5">
@@ -39,11 +56,18 @@ $total = 0;
                           <input class="custom-control-input custom-control-input-primary" type="radio" id="customRadio4" name="order_type" value="2" checked="">
                           <label for="customRadio4" class="custom-control-label">For Buy</label>
                         </div>
-
-                        <div class="custom-control custom-radio ml-3">
-                          <input class="custom-control-input custom-control-input-primary custom-control-input-outline" type="radio" id="customRadio5" name="order_type" value="1">
-                          <label for="customRadio5" class="custom-control-label">For Rent</label>
-                        </div>
+                        <?php if($all_rent_orders > 2) {?>
+                            <div class="custom-control custom-radio ml-3">
+                                <b> <p class="text-danger"> You all ready have <?= $all_rent_orders?>  for rent </p></b>
+                            </div>
+                        <?php }else{ ?>
+                            <?php if(!isset($_GET['goto'])) {?>
+                                <div class="custom-control custom-radio ml-3">
+                                    <input class="custom-control-input custom-control-input-primary custom-control-input-outline" type="radio" id="customRadio5" name="order_type" value="1">
+                                    <label for="customRadio5" class="custom-control-label">For Rent</label>
+                                </div>
+                            <?php } 
+                        }?>
                         <!-- <div class="custom-control custom-radio ml-3">
                           <input class="custom-control-input custom-control-input-primary custom-control-input-outline" type="radio" id="customRadio5" name="order_type" value="1">
                           <label for="customRadio5" class="custom-control-label">For Pick up</label>

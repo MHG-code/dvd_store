@@ -73,7 +73,7 @@ elseif(isset($_GET['s'])){
             <div class="collapse navbar-collapse" id="navbarSupportedContenth">
                <a class="nav-link dropdown-toggle text-dark text-lg" id="navbarDropdownCat" href="#" role="button"
                   data-toggle="dropdown" aria-expanded="false">
-                  <?php echo ("<span class='font-weight-bold'>Cetagories</span>") ?>
+                  <?php echo ("<span class='font-weight-bold'>Categories</span>") ?>
                </a>
                <ul class="dropdown-menu  p-0" aria-labelledby="navbarDropdownCat">
 
@@ -138,12 +138,21 @@ elseif(isset($_GET['s'])){
                <ul class="dropdown-menu p-0" aria-labelledby="navbarDropdownFilter">
 
                  
-                  <div class="d-flex">
-                  <?php foreach (range('A', 'Z') as $char) { ?>
+                  <div class="d-flex flex-wrap">
+                  <?php foreach (range('A', 'Z') as $char) {
+                     $color = '#0d6efd';
+                     if(isset($_GET['filter'])){
+                        if($char == $_GET['filter']){
+                           $color = 'red';
+                        }
+                     }
+
+
+                     ?>
 
                         <li class="nav-item">
-                           <a class="nav-link text-dark text-lg" aria-current="page"
-                              href="./?p=home&filter=<?php echo ($char) ?>">
+                           <a class="nav-link text-lg text-bold" aria-current="page"
+                              href="./?p=home&filter=<?php echo ($char) ?>" style="color:<?= $color ?>">
                               <?php echo $char?>
                            </a>
                         </li>
@@ -203,7 +212,7 @@ elseif(isset($_GET['s'])){
         <?php if($listing == 0){ $listing_rank++ ?>
          
          <div class="col mb-5" style="width: 40%;">
-         <p>Rank <?= $listing_rank ?></p>
+         <p style="font-weight: bold;">Rank <?= $listing_rank ?></p>
             <div class="card product-item p-2">
          <?php  } $listing++ ?>
         

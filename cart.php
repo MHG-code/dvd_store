@@ -20,7 +20,7 @@
                     $qry = $conn->query("SELECT c.*,p.title,i.price,p.id as pid from `cart` c 
                         inner join `inventory` i on i.id=c.inventory_id 
                         inner join products p on p.id = i.product_id 
-                            where c.client_id = ".$_settings->userdata('id') ." AND c.status != 'rent'"
+                            where c.client_id = ".$_settings->userdata('id')
                             );
                     while($row= $qry->fetch_assoc()):
                         $upload_path = base_app.'/uploads/product_'.$row['pid'];
@@ -60,7 +60,8 @@
                             </div> -->
                         </div>
                         <div class="col text-right align-items-center d-flex justify-content-end">
-                            <h4><b class="total-amount"><?php echo number_format($row['price'] * $row['quantity']) ?></b></h4>
+                            <!-- <h4><b class="total-amount"><?php //echo number_format($row['price'] * $row['quantity']) ?></b></h4> -->
+                            <h4><b class="total-amount"><?php echo number_format($row['price']) ?></b></h4>
                         </div>
                     </div>
                 <?php endwhile; ?>
@@ -74,19 +75,22 @@
             <a href="./?p=checkout" class="btn btn-sm btn-flat btn-light font-weight-bold rounded p-2 w-25" style="font-size: 1.5rem;">SEND</a>
         </div>
 
+
+        <!-- For rent -->
         <div class="card rounded-0 mt-3">
             <div class="card-body">
                 <h3><b>Rent List</b></h3>
                 <hr class="border-dark">
                 <?php 
-                    $qry = $conn->query("SELECT c.*,p.title,i.price,p.id as pid from `cart` c 
-                        inner join `inventory` i on i.id=c.inventory_id 
-                        inner join products p on p.id = i.product_id 
-                            where c.client_id = ".$_settings->userdata('id')." AND c.status = 'rent'"
-                            
-                        );
+    
+                    $qry = $conn->query("SELECT *, i.id as inventory_id from `orders` o 
+                        inner join order_list ol on ol.order_id = o.id
+                        inner join `inventory` i on i.product_id=ol.product_id 
+                             where o.client_id = ".$_settings->userdata('id')." AND o.order_type = '1'
+                            order by unix_timestamp(o.date_created)
+                                desc ");
                     while($row= $qry->fetch_assoc()):
-                        $upload_path = base_app.'/uploads/product_'.$row['pid'];
+                        $upload_path = base_app.'/uploads/product_'.$row['product_id'];
                         $img = "";
                         foreach($row as $k=> $v){
                             $row[$k] = trim(stripslashes($v));
@@ -94,7 +98,7 @@
                         if(is_dir($upload_path)){
                             $fileO = scandir($upload_path);
                             if(isset($fileO[2]))
-                                $img = "uploads/product_".$row['pid']."/".$fileO[2];
+                                $img = "uploads/product_".$row['product_id']."/".$fileO[2];
                             // var_dump($fileO);
                         }
                 ?>
@@ -102,7 +106,7 @@
                         <div class="d-flex justify-content-between align-items-center col-8">
                             <img src="<?php echo validate_image($img) ?>" loading="lazy" class="cart-prod-img mr-2 mr-sm-2" alt="">
                             <div>
-                            <span class="mr-2 pr-2"><a class="font-weight-bold" href="./?p=checkout&product=<?php echo ($row['inventory_id']) ?>" data-id="<?php echo $row['id'] ?>" style="font-size:larger; color:black; text-decoration:none">Buy</a></span>
+                            <span class="mr-2 pr-2"><a class="font-weight-bold" href="./?p=checkout&product=<?php echo ($row['inventory_id']) ?>&goto='rent_to_buy'" data-id="<?php echo $row['id'] ?>" style="font-size:larger; color:black; text-decoration:none">Buy</a></span>
                             </div>
                             
                         </div>
