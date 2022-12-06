@@ -207,6 +207,18 @@ Class Master extends DBConnection {
 						}
 					// }
 				}
+
+				$upload_path = "uploads/product_".$id."/cover";
+				if(!is_dir(base_app.$upload_path))
+					mkdir(base_app.$upload_path);
+				if(isset($_FILES['largeimg']) && count($_FILES['largeimg']['tmp_name']) > 0){
+					// foreach($_FILES['img']['tmp_name'] as $k => $v){
+						if(!empty($_FILES['largeimg']['tmp_name'][$key])){
+							move_uploaded_file($_FILES['largeimg']['tmp_name'][$key],base_app.$upload_path.'/'.$_FILES['largeimg']['name'][$key]);
+						}
+					// }
+				}
+
 				$resp['status'] = 'success';
 				if(empty($id))
 					$this->settings->set_flashdata('success',"New CD successfully saved.");

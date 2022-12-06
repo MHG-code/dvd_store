@@ -73,9 +73,17 @@ if(isset($_GET['id']) && $_GET['id'] > 0){
             </div>
 
             <div class="form-group">
-				<label for="" class="control-label">Images</label>
+				<label for="" class="control-label">cover Image</label>
 				<div class="custom-file">
 	              <input type="file" class="custom-file-input rounded-circle" id="customFile" name="img[]"  accept="image/*" onchange="displayImg(this,$(this))">
+	              <label class="custom-file-label" for="customFile">Choose file</label>
+	            </div>
+			</div>
+
+            <div class="form-group">
+				<label for="" class="control-label">Large Image</label>
+				<div class="custom-file">
+	              <input type="file" class="custom-file-input rounded-circle" id="customFile" name="largeimg[]"  accept="image/*" onchange="displayImg(this,$(this))">
 	              <label class="custom-file-label" for="customFile">Choose file</label>
 	            </div>
 			</div>
@@ -157,6 +165,14 @@ if(isset($_GET['id']) && $_GET['id'] > 0){
 				<label for="" class="control-label">Images</label>
 				<div class="custom-file">
 	              <input type="file" class="custom-file-input rounded-circle" id="customFile" name="img[]" multiple accept="image/*" onchange="displayImg(this,$(this))">
+	              <label class="custom-file-label" for="customFile">Choose file</label>
+	            </div>
+			</div>
+
+            <div class="form-group">
+				<label for="" class="control-label">Large Image</label>
+				<div class="custom-file">
+	              <input type="file" class="custom-file-input rounded-circle" id="customFile" name="largeimg[]"  accept="image/*" onchange="displayImg(this,$(this))">
 	              <label class="custom-file-label" for="customFile">Choose file</label>
 	            </div>
 			</div>

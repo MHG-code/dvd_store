@@ -28,12 +28,23 @@
                         foreach($row as $k=> $v){
                             $row[$k] = trim(stripslashes($v));
                         }
-                        if(is_dir($upload_path)){
+                        if (is_dir($upload_path)) {
                             $fileO = scandir($upload_path);
-                            if(isset($fileO[2]))
-                                $img = "uploads/product_".$row['pid']."/".$fileO[2];
-                            // var_dump($fileO);
-                        }
+                            if (isset($fileO[2])){
+          
+                               $cover_upload_path = base_app . '/uploads/product_' . $row['pid'].'/'.$fileO[2];
+                               if(is_dir($cover_upload_path)){
+                                  $fileO = scandir($cover_upload_path);
+                                  $img = "uploads/product_" . $row['pid'] . "/cover/" . $fileO[2];
+                                  
+                               }else{
+                                  $img = "/uploads/product_" . $row['pid']."/".$fileO[2];
+                               }
+                              
+          
+                            }
+                            
+                         }
                 ?>
                     <div class="d-flex w-100 justify-content-between  mb-2 py-2 border-bottom cart-item">
                         <div class="d-flex justify-content-between align-items-center col-8">
@@ -95,12 +106,23 @@
                         foreach($row as $k=> $v){
                             $row[$k] = trim(stripslashes($v));
                         }
-                        if(is_dir($upload_path)){
+                        if (is_dir($upload_path)) {
                             $fileO = scandir($upload_path);
-                            if(isset($fileO[2]))
-                                $img = "uploads/product_".$row['product_id']."/".$fileO[2];
-                            // var_dump($fileO);
-                        }
+                            if (isset($fileO[2])){
+          
+                               $cover_upload_path = base_app . '/uploads/product_' . $row['product_id'].'/'.$fileO[2];
+                               if(is_dir($cover_upload_path)){
+                                  $fileO = scandir($cover_upload_path);
+                                  $img = "uploads/product_" . $row['product_id'] . "/cover/" . $fileO[2];
+                                  
+                               }else{
+                                  $img = "/uploads/product_" . $row['product_id']."/".$fileO[2];
+                               }
+                              
+          
+                            }
+                            
+                         }
                 ?>
                     <div class="d-flex w-100 justify-content-between  mb-2 py-2 border-bottom cart-item">
                         <div class="d-flex justify-content-between align-items-center col-8">

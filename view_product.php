@@ -8,8 +8,16 @@
     $img = "";
     if(is_dir($upload_path)){
         $fileO = scandir($upload_path);
-        if(isset($fileO[2]))
-            $img = "uploads/product_".$id."/".$fileO[2];
+        if(isset($fileO[2])){
+            $cover_upload_path = base_app . '/uploads/product_' . $id.'/'.$fileO[2];
+            if(is_dir($cover_upload_path)){
+                $img = "uploads/product_".$id."/".$fileO[3];
+            }
+            else{
+                $img = "uploads/product_".$id."/".$fileO[2];
+            }
+        }
+            
         // var_dump($fileO);
     }
     $inventory = $conn->query("SELECT * FROM inventory where product_id = ".$id);
@@ -38,6 +46,9 @@
                         foreach($fileO as $k => $img):
                             if(in_array($img,array('.','..')))
                                 continue;
+                            if(is_dir('uploads/product_'.$id.'/'.$img)){
+                                continue;
+                            }
                     ?>
                     <div class="col">
                         <a href="javascript:void(0)" class="view-image <?php echo $k == 2 ? "active":'' ?>"><img src="<?php echo validate_image('uploads/product_'.$id.'/'.$img) ?>" loading="lazy"  class="img-thumbnail" alt=""></a>

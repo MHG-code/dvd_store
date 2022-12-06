@@ -193,9 +193,20 @@ elseif(isset($_GET['s'])){
                $img = "";
                if (is_dir($upload_path)) {
                   $fileO = scandir($upload_path);
-                  if (isset($fileO[2]))
-                     $img = "uploads/product_" . $row['id'] . "/" . $fileO[2];
-                  // var_dump($fileO);
+                  if (isset($fileO[2])){
+
+                     $cover_upload_path = base_app . '/uploads/product_' . $row['id'].'/'.$fileO[2];
+                     if(is_dir($cover_upload_path)){
+                        $fileO = scandir($cover_upload_path);
+                        $img = "uploads/product_" . $row['id'] . "/cover/" . $fileO[2];
+                        
+                     }else{
+                        $img = "/uploads/product_" . $row['id']."/".$fileO[2];
+                     }
+                    
+
+                  }
+                  
                }
                foreach ($row as $k => $v) {
                   $row[$k] = trim(stripslashes($v));
