@@ -10,14 +10,14 @@ if(isset($_GET['id']) && $_GET['id'] > 0){
 ?>
 <div class="card card-outline card-info">
 	<div class="card-header">
-		<h3 class="card-title"><?php echo isset($id) ? "Update ": "Create New " ?> Product</h3>
+		<h3 class="card-title"><?php echo isset($id) ? "Update ": "Create New " ?> DVD List</h3>
 	</div>
 	<div class="card-body">
 		<form action="" id="product-form">
 			<input type="hidden" name ="id" value="<?php echo isset($id) ? $id : '' ?>">
             <div class="form-group">
 				<label for="category_id" class="control-label">Category</label>
-                <select name="category_id" id="category_id" class="custom-select select2" required>
+                <select name="category_id[]" id="category_id" class="custom-select select2" required>
                 <option value=""></option>
                 <?php
                     $qry = $conn->query("SELECT * FROM `categories` order by category asc");
@@ -42,16 +42,16 @@ if(isset($_GET['id']) && $_GET['id'] > 0){
 			</div> -->
 			<div class="form-group">
 				<label for="title" class="control-label">CD Title</label>
-                <textarea name="title" id="" cols="30" rows="2" class="form-control form no-resize"><?php echo isset($title) ? $title : ''; ?></textarea>
+                <textarea name="title[]" id="" cols="30" rows="2" class="form-control form no-resize"><?php echo isset($title) ? $title : ''; ?></textarea>
 			</div>
 			<div class="form-group">
             <label for="author" class="control-label">Authors</label>
                 <small>(<i>Use comma (,) for seperating the name of Authors</i>)</small>
-                <textarea name="author" id="" cols="30" rows="2" class="form-control form no-resize"><?php echo isset($author) ? $author : ''; ?></textarea>
+                <textarea name="author[]" id="" cols="30" rows="2" class="form-control form no-resize"><?php echo isset($author) ? $author : ''; ?></textarea>
 			</div>
             <div class="form-group">
 				<label for="description" class="control-label">Description</label>
-                <textarea name="description" id="" cols="30" rows="2" class="form-control form no-resize summernote"><?php echo isset($description) ? $description : ''; ?></textarea>
+                <textarea name="description[]" id="" cols="30" rows="2" class="form-control form no-resize summernote"><?php echo isset($description) ? $description : ''; ?></textarea>
 			</div>
             <!-- <div class="form-group">
 				<label for="status" class="control-label">Status</label>
@@ -60,22 +60,22 @@ if(isset($_GET['id']) && $_GET['id'] > 0){
                 <option value="0" <?php echo isset($status) && $status == 0 ? 'selected' : '' ?>>Inactive</option>
                 </select>
 			</div> -->
-            <input type="hidden" value="1" name="status" id="status" />
+            <input type="hidden" value="1" name="status[]" id="status" />
 
             <div class="form-group">
 				<label for="price" class="control-label">Price</label>
-                <input type="number" step="any" class="form-control form" required name="price" value="<?php echo isset($price) ? $price : '' ?>">
+                <input type="number" step="any" class="form-control form" required name="price[]" value="<?php echo isset($price) ? $price : '' ?>">
             </div>
 
             <div class="form-group">
 				<!-- <label for="quantity" class="control-label">Beginning Quanatity</label> -->
-                <input type="hidden" class="form-control form" required name="quantity" value="<?php echo isset($quantity) ? $quantity : '1' ?>">
+                <input type="hidden" class="form-control form" required name="quantity[]" value="<?php echo isset($quantity) ? $quantity : '1' ?>">
             </div>
 
             <div class="form-group">
 				<label for="" class="control-label">Images</label>
 				<div class="custom-file">
-	              <input type="file" class="custom-file-input rounded-circle" id="customFile" name="img[]" multiple accept="image/*" onchange="displayImg(this,$(this))">
+	              <input type="file" class="custom-file-input rounded-circle" id="customFile" name="img[]"  accept="image/*" onchange="displayImg(this,$(this))">
 	              <label class="custom-file-label" for="customFile">Choose file</label>
 	            </div>
 			</div>
@@ -106,9 +106,66 @@ if(isset($_GET['id']) && $_GET['id'] > 0){
 	<div class="card-footer">
 		<button class="btn btn-flat btn-primary" form="product-form">Save</button>
 		<a class="btn btn-flat btn-default" href="?page=product">Cancel</a>
+
+        <button class="btn btn-flat btn-primary float-right" name="creat_more" id="creat_more" form="">create one more</button>
 	</div>
 </div>
 <script>
+    var x = 2;
+    var html=`
+            <div class="p-5 text-center" > <h3> Create DVD ${x} </h3> </div>
+            <div class="form-group">
+				<label for="category_id" class="control-label">Category</label>
+                <select name="category_id[]" id="category_id" class="custom-select select2" required>
+                <option value=""></option>
+                <?php
+                    $qry = $conn->query("SELECT * FROM `categories` order by category asc");
+                    while($row= $qry->fetch_assoc()):
+                ?>
+                <option value="<?php echo $row['id'] ?>" <?php echo isset($category_id) && $category_id == $row['id'] ? 'selected' : '' ?>><?php echo $row['category'] ?></option>
+                <?php endwhile; ?>
+                </select>
+			</div>
+            
+			<div class="form-group">
+				<label for="title" class="control-label">CD Title</label>
+                <textarea name="title[]" id="" cols="30" rows="2" class="form-control form no-resize"><?php echo isset($title) ? $title : ''; ?></textarea>
+			</div>
+			<div class="form-group">
+            <label for="author" class="control-label">Authors</label>
+                <small>(<i>Use comma (,) for seperating the name of Authors</i>)</small>
+                <textarea name="author[]" id="" cols="30" rows="2" class="form-control form no-resize"><?php echo isset($author) ? $author : ''; ?></textarea>
+			</div>
+            <div class="form-group">
+				<label for="description" class="control-label">Description</label>
+                <textarea name="description[]" id="" cols="30" rows="2" class="form-control form no-resize summernote"><?php echo isset($description) ? $description : ''; ?></textarea>
+			</div>
+            
+            <input type="hidden" value="1" name="status[]" id="status" />
+
+            <div class="form-group">
+				<label for="price" class="control-label">Price</label>
+                <input type="number" step="any" class="form-control form" required name="price[]" value="<?php echo isset($price) ? $price : '' ?>">
+            </div>
+
+            <div class="form-group">
+				<!-- <label for="quantity" class="control-label">Beginning Quanatity</label> -->
+                <input type="hidden" class="form-control form" required name="quantity[]" value="<?php echo isset($quantity) ? $quantity : '1' ?>">
+            </div>
+
+            <div class="form-group">
+				<label for="" class="control-label">Images</label>
+				<div class="custom-file">
+	              <input type="file" class="custom-file-input rounded-circle" id="customFile" name="img[]" multiple accept="image/*" onchange="displayImg(this,$(this))">
+	              <label class="custom-file-label" for="customFile">Choose file</label>
+	            </div>
+			</div>
+    `;
+
+    $('#creat_more').click(function(){
+        $("#product-form").append(html);
+        x++;
+    })
     function displayImg(input,_this) {
         console.log(input.files)
         var fnames = []
@@ -198,6 +255,7 @@ if(isset($_GET['id']) && $_GET['id'] > 0){
 					end_loader();
 				},
 				success:function(resp){
+                    console.log(resp);
 					if(typeof resp =='object' && resp.status == 'success'){
 						location.href = "./?page=product";
 					}else if(resp.status == 'failed' && !!resp.msg){

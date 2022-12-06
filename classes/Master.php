@@ -129,84 +129,95 @@ Class Master extends DBConnection {
 
 	}
 	function save_product(){
-		foreach($_POST as $k =>$v){
-			$_POST[$k] = addslashes($v);
-		}
-		extract($_POST);
-		$data = "";
-		$inv_data = "";
-		foreach($_POST as $k =>$v){
-			if(!in_array($k,array('id','description', 'price','quantity'))){
-				if(!empty($data)) $data .=",";
-
-				$v = addslashes($v);
-				$data .= " `{$k}`='{$v}' ";
-			}
-		}
-		if(isset($_POST['description'])){
-			if(!empty($data)) $data .=",";
-				$data .= " `description`='".addslashes(htmlentities($description))."' ";
-		}
-
-		if(isset($_POST['price'])){
-			$price = $_POST['price'];
-			if(!empty($inv_data)) $inv_data .=",";
-
-				$inv_data .= " `price`='{$price}' ";
-		}
-
-		if( isset($_POST['quantity'])){
-			$quantity = $_POST['quantity'];
-			if(!empty($inv_data)) $inv_data .=",";
-				$inv_data .= " `quantity`='{$quantity}' ";
-		}
-
-		$check = $this->conn->query("SELECT * FROM `products` 
-			where `title` = '{$title}' ".(!empty($id) ? " and id != {$id} " : "")." ")->num_rows;
-		if($this->capture_err())
-			return $this->capture_err();
-		if($check > 0){
-			$resp['status'] = 'failed';
-			$resp['msg'] = "CD already exist.";
-			return json_encode($resp);
-			exit;
-		}
-		if(empty($id)){
-			$sql = "INSERT INTO `products` set {$data} ";
-			$save = $this->conn->query($sql);
-			$id= $this->conn->insert_id;
+		$itr = 0;
+		foreach ($_POST['title'] as $key => $value) {
 
 			
-			$inv_data .= ", `product_id`='{$id}' ";
-			$sql = "INSERT INTO `inventory` set {$inv_data} ";
-			$this->conn->query($sql);
-		}else{
-			$sql = "UPDATE `products` set {$data} where id = '{$id}' ";
-			$save = $this->conn->query($sql);
-
-			$sql = "UPDATE `inventory` set {$inv_data} where product_id = '{$id}' ";
-			$save = $this->conn->query($sql);
-		}
-		if($save){
-			$upload_path = "uploads/product_".$id;
-			if(!is_dir(base_app.$upload_path))
-				mkdir(base_app.$upload_path);
-			if(isset($_FILES['img']) && count($_FILES['img']['tmp_name']) > 0){
-				foreach($_FILES['img']['tmp_name'] as $k => $v){
-					if(!empty($_FILES['img']['tmp_name'][$k])){
-						move_uploaded_file($_FILES['img']['tmp_name'][$k],base_app.$upload_path.'/'.$_FILES['img']['name'][$k]);
-					}
+			
+			foreach($_POST as $k =>$v){
+				if(!in_array($k,array('id'))){
+					$_POST[$k][$key] = addslashes($v[$key]);
 				}
 			}
-			$resp['status'] = 'success';
-			if(empty($id))
-				$this->settings->set_flashdata('success',"New CD successfully saved.");
-			else
-				$this->settings->set_flashdata('success',"CD successfully updated.");
-		}else{
-			$resp['status'] = 'failed';
-			$resp['err'] = $this->conn->error."[{$sql}]";
+			extract($_POST);
+			$data = "";
+			$inv_data = "";
+			foreach($_POST as $k =>$v){
+				
+				if(!in_array($k,array('id','description', 'price','quantity'))){
+					
+					if(!empty($data)) $data .=",";
+	
+					$v = addslashes($v[$key]);
+					$data .= " `{$k}`='{$v}' ";
+				}
+			}
+
+			if(isset($_POST['description'][$key])){
+				if(!empty($data)) $data .=",";
+					$data .= " `description`='".addslashes(htmlentities($description[$key]))."' ";
+			}
+	
+			if(isset($_POST['price'][$key])){
+				$price = $_POST['price'][$key];
+				if(!empty($inv_data)) $inv_data .=",";
+	
+					$inv_data .= " `price`='{$price}' ";
+			}
+	
+			if( isset($_POST['quantity'][$key])){
+				$quantity = $_POST['quantity'][$key];
+				if(!empty($inv_data)) $inv_data .=",";
+					$inv_data .= " `quantity`='{$quantity}' ";
+			}
+			$check = $this->conn->query("SELECT * FROM `products` 
+				where `title` = '{$title[$key]}' ".(!empty($id) ? " and id != {$id} " : "")." ")->num_rows;
+			if($this->capture_err())
+				return $this->capture_err();
+			if($check > 0){
+				$resp['status'] = 'failed';
+				$resp['msg'] = "CD already exist.";
+				return json_encode($resp);
+				exit;
+			}
+			if(empty($id)){
+				$sql = "INSERT INTO `products` set {$data} ";
+				$save = $this->conn->query($sql);
+				$id= $this->conn->insert_id;
+	
+				
+				$inv_data .= ", `product_id`='{$id}' ";
+				$sql = "INSERT INTO `inventory` set {$inv_data} ";
+				$this->conn->query($sql);
+			}else{
+				$sql = "UPDATE `products` set {$data} where id = '{$id}' ";
+				$save = $this->conn->query($sql);
+	
+				$sql = "UPDATE `inventory` set {$inv_data} where product_id = '{$id}' ";
+				$save = $this->conn->query($sql);
+			}
+			if($save){
+				$upload_path = "uploads/product_".$id;
+				if(!is_dir(base_app.$upload_path))
+					mkdir(base_app.$upload_path);
+				if(isset($_FILES['img']) && count($_FILES['img']['tmp_name']) > 0){
+					// foreach($_FILES['img']['tmp_name'] as $k => $v){
+						if(!empty($_FILES['img']['tmp_name'][$key])){
+							move_uploaded_file($_FILES['img']['tmp_name'][$key],base_app.$upload_path.'/'.$_FILES['img']['name'][$key]);
+						}
+					// }
+				}
+				$resp['status'] = 'success';
+				if(empty($id))
+					$this->settings->set_flashdata('success',"New CD successfully saved.");
+				else
+					$this->settings->set_flashdata('success',"CD successfully updated.");
+			}else{
+				$resp['status'] = 'failed';
+				$resp['err'] = $this->conn->error."[{$sql}]";
+			}
 		}
+
 		return json_encode($resp);
 	}
 	function delete_product(){
